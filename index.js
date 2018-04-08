@@ -14,7 +14,8 @@ const treedata =
 function traverseTree(t){
     
     if (t.children){
-        t.showChildren=false;
+        t.showChildren=true;
+        t.selected = false;
         t.children.map(function(t){
             traverseTree(t)
         })
@@ -27,7 +28,13 @@ function traverseTree(t){
 
 traverseTree(treedata);
 
-ReactDOM.render(<TreeComponent data = {treedata}/>, document.getElementById('treeComponent'));
+ReactDOM.render(<TreeComponent data = {treedata} onSelectCallback={selected}/>, document.getElementById('treeComponent'));
+
+
+function selected (selectedOU){
+    debugger
+
+}
 
 function uploadFileHandler(){
 

@@ -5,18 +5,20 @@
 
 #treeComponent 
 {
-  font-size: 9pt;
+  font-size: 12pt;
   background-color: white;
   overflow: auto;
-  width: 235px;
-  height: 300px;
-  border-top: 1px solid #e3e3e3;
+  width: 300px;
+  height: 480px;
+  border-top: 3px solid #e3e3e3;
   border-bottom: 1px solid #e3e3e3;
+  border-left: 2px solid #e3e3e3;
+
 }
 
 #treeComponent ul 
 {
-    list-style-type:none;
+  list-style-type:none;
   margin: 0;
   padding: 0;
 }
@@ -52,6 +54,8 @@
   color: #000;
   text-decoration: none;
   cursor: pointer;
+  margin-left:1%;
+  margin-top:1%;
 }
 
 #treeComponent a:hover 
