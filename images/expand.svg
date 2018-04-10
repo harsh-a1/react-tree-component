@@ -1,0 +1,7 @@
+<svg width="12" height="12">
+     <rect x="0" y="0" width="12" height="12" stroke="black" fill="transparent" stroke-width="1"/>
+     <line x1="2" x2="10" y1="6" y2="6" stroke="black" stroke-width="1" />
+
+    <line x1="6" x2="6" y1="2" y2="10" stroke="black" stroke-width="1"/>
+
+</svg>

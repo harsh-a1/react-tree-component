@@ -1,6 +1,8 @@
 import React,{propTypes} from 'react';
-import collapseIMG from '../images/colapse.png';
+import collapseIMG from '../images/collapse.png';
 import expandIMG from '../images/expand.png';
+import transparentIMG from '../images/transparent.gif';
+
 
 function getReq(url,callback){
     var request = new XMLHttpRequest();
@@ -107,6 +109,8 @@ export function TreeComponent(props){
     function Tree(props){
         var instance = Object.create(React.PureComponent.prototype)
 
+        instance.props = props;
+        
         instance.render = function(){
             if (!props.data.children || props.data.children.length == 0){
                 return (
@@ -159,14 +163,14 @@ export function TreeComponent(props){
                 var toggleImg = "";
                 
                 if ( props.data.children.length!=0){
-                    toggleImg = props.data.showChildren  ?expandIMG:collapseIMG; 
+                    toggleImg = props.data.showChildren  ?collapseIMG:expandIMG; 
                 }            
                 return (
                         <div key={"div_"+props.data.id} >
-                        <span key={"span_"+props.data.id} className="toggle"  >
-                        <img key={"img_"+props.data.id} width="12" height="12" src={toggleImg} onClick={instance.toggle} />
+                        <span key={"span_"+props.data.id} className="toggle"  > 
+                        <img key={"img_"+props.data.id} height="12" width="12" src={toggleImg} onClick={instance.toggle} />
                         </span>
-                        <a key={"a_"+props.data.id} onClick = {instance.selected} style={props.data.selected? {color:"yellow"}:{color:"black"}}  >{props.data.name}</a>
+                        <a key={"a_"+props.data.id} onClick = {instance.selected} className={props.data.selected? "selected":""}  >{props.data.name}</a>
                         </div>
                 )
             }

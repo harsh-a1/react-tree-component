@@ -5,7 +5,7 @@
 
 #treeComponent 
 {
-  font-size: 12pt;
+  font-size: 11pt;
   background-color: white;
   overflow: auto;
   width: 300px;
@@ -13,7 +13,8 @@
   border-top: 3px solid #e3e3e3;
   border-bottom: 1px solid #e3e3e3;
   border-left: 2px solid #e3e3e3;
-
+  font-family: LiberationSans, arial, sans-serif;
+  line-height: 140%;
 }
 
 #treeComponent ul 
@@ -42,7 +43,7 @@
 
 #treeComponent span.toggle 
 {
-  margin-left: -12px;
+  margin-left: -13px;;
   cursor: pointer;
 }
 
