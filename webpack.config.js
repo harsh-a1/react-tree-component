@@ -37,7 +37,7 @@ module.exports = {
     output: {
         path: parentDir + '/dist',
         filename: 'bundle.js',
-        library: "test",
+        library: "outree-single",
         libraryTarget: 'umd',
         publicPath: '/dist/',
         umdNamedDefine: true
