@@ -1,8 +1,10 @@
 import React,{propTypes} from 'react';
-import collapseIMG from '../images/collapse.png';
-import expandIMG from '../images/expand.png';
-import transparentIMG from '../images/transparent.gif';
+import collapseIMG from './images/collapse.png';
+import expandIMG from './images/expand.png';
+import transparentIMG from './images/transparent.gif';
+import loaderIMG from './images/ajax-loader-bar.gif';
 
+import  './css/main.css'
 
 function getReq(url,callback){
     var request = new XMLHttpRequest();
@@ -44,6 +46,7 @@ function init(callback){
                        if (error){
                            callback(error)
                        }else{
+
                            traverseTree(body);
 
                            callback(body)
@@ -55,11 +58,11 @@ function init(callback){
     })
 
     function traverseTree(t){
-        debugger
+        
         if (t.children){
             t.showChildren=false;
             t.selected = false;
-            t.children.sort(function(a,b){debugger
+            t.children.sort(function(a,b){
                 var nameA = a.name.toUpperCase(); // ignore upper and lowercase
                 var nameB = b.name.toUpperCase(); // ignore upper and lowercase
                 if (nameA < nameB) {
@@ -68,11 +71,10 @@ function init(callback){
                 if (nameA > nameB) {
                     return 1;
                 }
-
+                                          
                 // names must be equal
                 return 0;
             })
-            
             t.children.map(function(t){
                 traverseTree(t)
             })
@@ -84,13 +86,15 @@ function init(callback){
     
 }
 
+
 export function TreeComponent(props){
 
     var instance = Object.create(React.Component.prototype)
 
     var state = {
         previousSelected :{},
-        onSelectCallback : props.onSelectCallback
+        onSelectCallback : props.onSelectCallback,
+        loading:true
     }
     instance.props = props;   
     var toggle = function(){
@@ -104,16 +108,21 @@ export function TreeComponent(props){
     if (!props.data){
         init(function(ous){
             state.data = ous;
+            state.loading = false;
             instance.setState(state)
             
         });
     }
     instance.render = function(){
-        if (!state.data){return <div key = "dummy"></div>}
+        if (!state.data){return <div key = "dummy">  <img  height="12" width="12" src={loaderIMG} ></img></div>}
         
-        return <ul key={"ul_"+state.data.id}>
+        return <div key = "treeContainer">
+            <ul key={"ul_"+state.data.id}>
             <Tree data={state.data} updateState={instance.updateState} state={state } />
             </ul>
+
+            <img  height="32" width="32" src={loaderIMG} style = {state.loading?{"display":"inline"} : {"display" : "none"}}></img>
+            </div>
     }
 
     
@@ -165,7 +174,8 @@ export function TreeComponent(props){
                 props.data.selected = !props.data.selected;                
                 props.state.previousSelected = props.data;
                 props.updateState();
-                props.state.onSelectCallback(Object.assign({},props.data));
+                props.state.onSelectCallback.selected(Object.assign({},props.data));
+            
                 
             }
             
@@ -178,7 +188,7 @@ export function TreeComponent(props){
                 return (
                         <div key={"div_"+props.data.id} >
                         <span key={"span_"+props.data.id} className="toggle"  > 
-                        <img key={"img_"+props.data.id} height="12" width="12" src={toggleImg} onClick={instance.toggle} />
+                        <img key={"img_"+props.data.id} height="11" width="11" src={toggleImg} onClick={instance.toggle} />
                         </span>
                         <a key={"a_"+props.data.id} onClick = {instance.selected} className={props.data.selected? "selected":""}  >{props.data.name}</a>
                         </div>

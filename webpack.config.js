@@ -6,7 +6,7 @@ var parentDir = path.join(__dirname, './');
 module.exports = {
   
     entry: [
-        path.join(parentDir, 'index.js')
+        path.join(parentDir, './app.js')
     ],
     module: {
         rules: [
@@ -36,7 +36,7 @@ module.exports = {
     },
     output: {
         path: parentDir + '/dist',
-        filename: 'bundle.js',
+        filename: 'ous.js',
         library: "outree-single",
         libraryTarget: 'umd',
         publicPath: '/dist/',
