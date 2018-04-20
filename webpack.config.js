@@ -36,7 +36,7 @@ module.exports = {
     },
     output: {
         path: parentDir + '/dist',
-        filename: 'ous.js',
+        filename: 'header.js',
         library: "outree-single",
         libraryTarget: 'umd',
         publicPath: '/dist/',

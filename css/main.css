@@ -1,74 +1,94 @@
 /*----------------------------------------------------------------------------*/
-/* Organisation Unit Web Tree                                                 */
+/*Header Bar                                             */
 /*----------------------------------------------------------------------------*/
 
 
-#treeComponent 
+#headerBar 
 {
-  font-size: 11pt;
-  background-color: white;
-  overflow: auto;
-  width: 300px;
-  height: 485.41px;
-  border-top: 3px solid #e3e3e3;
-  border-bottom: 1px solid #e3e3e3;
-  border-left: 2px solid #e3e3e3;
-  font-family: LiberationSans, arial, sans-serif;
-  line-height: 140%;
-  display:inline-block;
+    background-color: #276696;
+    height: 48px;
+    position: fixed;
+    z-index: 1100;
+    top: 0;
+    left: 0;
+    right: 0;
 }
 
-#treeComponent ul 
-{
-  list-style-type:none;
-  margin: 0;
-  padding: 0;
+#headerBanner{
+    max-width: 175px;
+    max-height: 44px;
+    position: absolute;
+    top: 13px;
+    left: 55px;
 }
 
-#treeComponent ul li:last-child {
-  background-position: 0pt -1766px;
+#box-button{
+
+    
+    border: 10px; box-sizing: border-box; display: inline-block; font-family: Roboto, sans-serif; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); cursor: pointer; text-decoration: none; margin: 0px; padding: 12px; outline: none; font-size: 0px; font-weight: inherit; transform: translate(0px, 0px); position: relative; overflow: visible; transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; width: 48px; height: 48px; background: none;
+    float:right;
+    
+
 }
 
-#treeComponent li 
-{
-  list-style-type: none;
-  white-space: nowrap;
-  margin-top: 0;
-  padding: 0 0 1px 15px;
-  background-color: transparent;
-  background-image: url('../images/treeview-gray-line.gif');
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  background-position: 0pt 0pt;
+#svgBox{
+    display: inline-block; color: rgba(0, 0, 0, 0.87); fill: rgb(255, 255, 255); height: 24px; width: 24px; user-select: none; transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
 }
 
-#treeComponent span.toggle 
-{
-  margin-left: -13px;;
-  cursor: pointer;
+#iconBox{
+color: rgba(0, 0, 0, 0.87);
+    background-color: rgb(255, 255, 255);
+    transition: padding-top 0.3s cubic-bezier(0.39, -0.04, 0.2, 1), padding-bottom 0.3s cubic-bezier(0.39, -0.04, 0.2, 1), height 0.3s cubic-bezier(0.39, -0.04, 0.2, 1);
+    box-sizing: border-box;
+    font-family: Roboto, sans-serif;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+    border-radius: 2px;
+    position: relative;
+    top: 48px;
+    left: 0px;
+    right: 0px;
+    max-width: 673px;
+    max-height: 465px;
+    display: flex;
+    flex-direction: column;
+    height: 410px;
+    overflow: hidden;
+    float:right;
 }
 
-#treeComponent a 
-{
-  display: inline;
-  border: 0;
-  padding: 0;
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-  margin-left:1%;
-  margin-top:1%;
+.itemLink{
+background-color: rgb(245, 245, 245); padding: 1rem; display: flex; width: 125px; height: 125px; box-sizing: border-box; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; color: rgb(0, 0, 0); font-size: 1rem;
 }
 
-#treeComponent a:hover 
-{
-  color: #555;
-  background-color: #fff;
+
+#iconBox2{
+flex: 1 1 0%; overflow: auto; padding: 1rem;
 }
 
-#treeComponent a.selected 
-{
-  color: orange !important;
-  font-weight: bold;
+#iconBox3{
+
+display: flex; flex-wrap: wrap;
 }
 
+#textDiv{
+    text-align:center
+}
+
+#inputHeader{
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; position: relative; width: 100%; border: none; outline: none; background-color: rgba(0, 0, 0, 0); color: rgb(255, 255, 255); cursor: initial; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: inherit; line-height: inherit; font-family: inherit; height: 100%; flex: 1 1 0%;
+    float:right;
+}
+
+
+#searchDiv1{
+font-size: 16px; line-height: 24px; width: 100%; height: 48px; display: inline-block; position: relative; background-color: transparent; font-family: Roboto, sans-serif; transition: height 200ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+}
+
+#searchDiv2{
+border-top: none rgb(224, 224, 224); border-right: none rgb(224, 224, 224); border-bottom: 1px solid rgb(224, 224, 224); border-left: none rgb(224, 224, 224); border-image: initial; bottom: 8px; box-sizing: content-box; margin: 0px; position: absolute; width: 100%;
+}
+
+#hrSearch{
+border-top: none rgb(255, 255, 255); border-right: none rgb(255, 255, 255); border-bottom: 2px solid rgb(255, 255, 255); border-left: none rgb(255, 255, 255); border-image: initial; bottom: 8px; box-sizing: content-box; margin: 0px; position: absolute; width: 100%; transform: scaleX(0); transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+}
