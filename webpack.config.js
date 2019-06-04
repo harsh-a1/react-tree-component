@@ -6,7 +6,7 @@ var parentDir = path.join(__dirname, './');
 module.exports = {
   
     entry: [
-        path.join(parentDir, './app.js')
+        path.join(parentDir, './')
     ],
     module: {
         rules: [

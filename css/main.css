@@ -72,3 +72,13 @@
   font-weight: bold;
 }
 
+.show {
+    display : block;   
+}
+
+.hide {
+    display: none;
+    margin-top: 110;
+
+    
+}

@@ -111,80 +111,81 @@ export function TreeComponent(props){
     instance.render = function(){
         if (!state.data){return <div key = "dummy"></div>}
         
-        return <ul key={"ul_"+state.data.id}>
-            <Tree data={state.data} updateState={instance.updateState} state={state } />
-            </ul>
+        return <div>
+            <Tree data={state.data} />
+            </div>
     }
 
     
     return instance;
 
-    
     function Tree(props){
-        var instance = Object.create(React.PureComponent.prototype)
-
+        var instance = Object.create(React.Component.prototype)
+        
         instance.props = props;
+
+        function getLeaf(data){
+            var toggleImg = expandIMG;
+
+            if (data instanceof Array){
+                var leafs = data.reduce(function(list,obj){                    
+                    list.push(<Leaf key={"leaf_"+obj.id} data={obj}/>);
+                    return list;
+                },[]);
+
+                return leafs;
+            }else{
+                
+                return (<Leaf key={"leaf_"+data.id} data={data}/>);
+            }
+        }
         
         instance.render = function(){
-            if (!props.data.children || props.data.children.length == 0){
-                return (
-                        <li key={"li_"+props.data.id}>
-                        <LeafNode data={props.data} updateState = {props.updateState} state={props.state}  />                
-                        </li>
-                )
-            }
-
-            return  (            
-                    <li key={"li_"+props.data.id}><LeafNode data={props.data} updateState = {props.updateState} state={props.state} />
-                    <ul key = {"ul_"+props.data.id} style={props.data.showChildren?{"display":"inline"}:{"display":"none"}}>
-                    {
-                        props.data.children.map(function(child){
-                            return <Tree data={child} key={"tree_"+child.id} updateState = {props.updateState} state={props.state}  />
-                        })                
-                    }
-                </ul></li>
-            )
+            return (<ul>
+                    {getLeaf(props.data)}
+                    </ul>)
         }
+
         return instance;
-        function LeafNode(props){
-            var instance = Object.create(React.PureComponent.prototype)
-            instance.props = props;   
-
-            instance.componentDidMount= function(){
-//                  console.log("yes")
-            }
-            
-            instance.toggle = function(){
-
-                props.data.showChildren = !props.data.showChildren;
-                props.updateState();
-            }
-
-            instance.selected = function(){
-                props.state.previousSelected.selected = false;
-                props.data.selected = !props.data.selected;                
-                props.state.previousSelected = props.data;
-                props.updateState();
-                props.state.onSelectCallback(Object.assign({},props.data));
-                
-            }
-            
-            instance.render = function(){
-                var toggleImg = "";
-                
-                if ( props.data.children.length!=0){
-                    toggleImg = props.data.showChildren  ?collapseIMG:expandIMG; 
-                }            
-                return (
-                        <div key={"div_"+props.data.id} >
-                        <span key={"span_"+props.data.id} className="toggle"  > 
-                        <img key={"img_"+props.data.id} height="12" width="12" src={toggleImg} onClick={instance.toggle} />
-                        </span>
-                        <a key={"a_"+props.data.id} onClick = {instance.selected} className={props.data.selected? "selected":""}  >{props.data.name}</a>
-                        </div>
-                )
-            }
-            return instance        
-        }   
     }
-}
+    function Leaf(props){
+        var instance = Object.create(React.Component.prototype)
+        instance.props = props;
+        var data = props.data; 
+
+        function toggle(){
+            data.showChildren = !data.showChildren;
+            instance.setState(data);
+        }
+
+        function node(){
+            if (data.children.length!=0){
+                return (
+                        <li id={data.id} key={data.id}>
+                        <span key={"span_"+data.id} className="toggle"   > 
+                        <img key={"img_"+data.id} height="12" width="12" src={props.data.showChildren  ?collapseIMG:expandIMG} onClick={toggle} />
+                        </span>
+                        <a key={"a_"+data.id}>{data.name}</a>
+                        <div className={data.showChildren ?'show':'hide'}>
+                        <Tree key={"tree"+data.id+data.children.length} data={data.children}  />
+                        </div>
+                        
+                    </li>
+                )    
+            }else{
+                return (
+                        <li id={data.id} key={data.id}>
+                        <a key={"a_"+data.id}>{data.name}</a>
+                        
+                    </li>
+                )    
+            }
+        }
+        
+        
+        instance.render = node;
+        
+        return instance;
+    }
+
+}  
