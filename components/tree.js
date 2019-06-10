@@ -2,7 +2,7 @@ import React,{propTypes} from 'react';
 import collapseIMG from '../images/collapse.png';
 import expandIMG from '../images/expand.png';
 import transparentIMG from '../images/transparent.gif';
-
+import loaderIMG from '../images/ajax-loader-bar.gif';
 
 function getReq(url,callback){
     var request = new XMLHttpRequest();
@@ -16,8 +16,6 @@ function getReq(url,callback){
         } else {
             // We reached our target server, but it returned an error
             callback(request,null,null);
-
-            
         }
     };
     
@@ -89,9 +87,13 @@ export function TreeComponent(props){
     var instance = Object.create(React.Component.prototype)
 
     var state = {
-        previousSelected :{},
-        onSelectCallback : props.onSelectCallback
+        _state : {
+            previousSelected :{},
+            unselectPrev : function(){},
+            onSelectCallback : props.onSelectCallback
+        }
     }
+
     instance.props = props;   
     var toggle = function(){
         instance.setState(state.data)
@@ -109,10 +111,13 @@ export function TreeComponent(props){
         });
     }
     instance.render = function(){
-        if (!state.data){return <div key = "dummy"></div>}
+        if (!state.data){return (<div key = "dummy">
+                                 <img  height="12" width="12" src={loaderIMG}  />
+                                 </div>
+                                )}
         
         return <div>
-            <Tree data={state.data} />
+            <Tree data={state.data} state={state._state}  />
             </div>
     }
 
@@ -124,25 +129,25 @@ export function TreeComponent(props){
         
         instance.props = props;
 
-        function getLeaf(data){
+        function getLeaf(data,state){
             var toggleImg = expandIMG;
 
             if (data instanceof Array){
                 var leafs = data.reduce(function(list,obj){                    
-                    list.push(<Leaf key={"leaf_"+obj.id} data={obj}/>);
+                    list.push(<Leaf key={"leaf_"+obj.id} data={obj} state={state} />);
                     return list;
                 },[]);
 
                 return leafs;
             }else{
                 
-                return (<Leaf key={"leaf_"+data.id} data={data}/>);
+                return (<Leaf key={"leaf_"+data.id} data={data} state={state} />);
             }
         }
         
         instance.render = function(){
             return (<ul>
-                    {getLeaf(props.data)}
+                    {getLeaf(props.data,props.state)}
                     </ul>)
         }
 
@@ -152,30 +157,50 @@ export function TreeComponent(props){
         var instance = Object.create(React.Component.prototype)
         instance.props = props;
         var data = props.data; 
-
+       
         function toggle(){
             data.showChildren = !data.showChildren;
             instance.setState(data);
         }
 
+        function unselect(){
+            data.selected = false;
+            instance.setState(data);
+        }
+        
+        function selectOU(e){
+            props.state.unselectPrev();
+            props.state.unselectPrev = unselect;
+            data.selected = true;
+            instance.setState(data);
+            props.state.onSelectCallback(
+                Object.assign({},
+                              {
+                                  id:data.id,
+                                  level:data.level,
+                                  name:data.name
+                              }));
+            
+        }
+        
         function node(){
             if (data.children.length!=0){
                 return (
-                        <li id={data.id} key={data.id}>
+                        <li id={data.id} key={'li'+data.id}>
                         <span key={"span_"+data.id} className="toggle"   > 
                         <img key={"img_"+data.id} height="12" width="12" src={props.data.showChildren  ?collapseIMG:expandIMG} onClick={toggle} />
                         </span>
-                        <a key={"a_"+data.id}>{data.name}</a>
-                        <div className={data.showChildren ?'show':'hide'}>
-                        <Tree key={"tree"+data.id+data.children.length} data={data.children}  />
+                        <a key={"a_"+data.id} onClick={selectOU} className={props.data.selected? "selected":""} >{data.name}</a>
+                        <div key={"div"+data.id+data.children.length} className={data.showChildren ?'show':'hide'}>
+                        <Tree key={"tree"+data.id+data.children.length} data={data.children} state={props.state} />
                         </div>
                         
                     </li>
                 )    
             }else{
                 return (
-                        <li id={data.id} key={data.id}>
-                        <a key={"a_"+data.id}>{data.name}</a>
+                        <li id={data.id} key={'li'+data.id}>
+                        <a key={"a_"+data.id} onClick={selectOU} className={props.data.selected? "selected":""} >{data.name}</a>
                         
                     </li>
                 )    
