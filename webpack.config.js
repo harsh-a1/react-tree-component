@@ -6,7 +6,7 @@ var parentDir = path.join(__dirname, './');
 module.exports = {
   
     entry: [
-        path.join(parentDir, './components/')
+        path.join(parentDir, './')
     ],
     module: {
         rules: [

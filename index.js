@@ -1,5 +1,5 @@
 
-
+/*
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -12,3 +12,4 @@ ReactDOM.render(<TreeComponent  onSelectCallback={function(ou){
 
     debugger
 }}/>, document.getElementById('treeComponent'));
+*/
