@@ -4,6 +4,9 @@ import expandIMG from '../images/expand.png';
 import transparentIMG from '../images/transparent.gif';
 import loaderIMG from '../images/ajax-loader-bar.gif';
 
+var ouMap = [];
+var rootOU = null;
+
 function getReq(url,callback){
     var request = new XMLHttpRequest();
     request.open('GET', url, true);
@@ -35,7 +38,7 @@ function init(callback){
         if (error){
             callback(error)
         }else{
-            var rootOU = body.organisationUnits[0];
+            rootOU = body.organisationUnits[0];
 
             getReq("../../organisationUnits/"+rootOU.id+".json?fields= id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[]]]]]]]]]]]]]]]]]]",
                    function(error,reponse,body){
@@ -53,7 +56,8 @@ function init(callback){
     })
 
     function traverseTree(t){
-        
+        ouMap[t.id]=t;
+
         if (t.children){
             t.showChildren=false;
             t.selected = false;
@@ -71,14 +75,36 @@ function init(callback){
                 return 0;
             })
             
-            t.children.map(function(t){
-                traverseTree(t)
+            t.children.map(function(tc){
+                tc.parent = t;
+                traverseTree(tc)
             })
             
         }else{
             return
         }    
     }
+    
+}
+
+export const treeOUService = {
+    
+    getOrgUnitFromUID : function(uid){
+        
+        try{
+            return Object.assign({},ouMap[uid]);
+        }catch(e){
+            console.log(e);
+            return null
+        }
+    },
+    getRoot : function(){
+        try{
+            return Object.assign({},ouMap[rootOU.id]);
+        }catch(e){
+            console.log(e);
+            return null
+        }    }
     
 }
 
