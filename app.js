@@ -5,7 +5,7 @@ import transparentIMG from './images/transparent.gif';
 import loaderIMG from './images/ajax-loader-bar.gif';
 
 import  './css/main.css'
-
+// TODO This file needs to be gotten rid of
 function getReq(url,callback){
     var request = new XMLHttpRequest();
     request.open('GET', url, true);

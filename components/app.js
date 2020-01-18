@@ -3,6 +3,8 @@ import collapseIMG from '../images/collapse.png';
 import expandIMG from '../images/expand.png';
 import transparentIMG from '../images/transparent.gif';
 
+var ouMap = [];
+var rootOU = null;
 
 function getReq(url,callback){
     var request = new XMLHttpRequest();
@@ -37,7 +39,7 @@ function init(callback){
         if (error){
             callback(error)
         }else{
-            var rootOU = body.organisationUnits[0];
+            rootOU = body.organisationUnits[0];
 
             getReq("../../organisationUnits/"+rootOU.id+".json?fields= id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[id,name,level,children[]]]]]]]]]]]]]]]]]]",
                    function(error,reponse,body){
@@ -45,7 +47,7 @@ function init(callback){
                            callback(error)
                        }else{
                            traverseTree(body);
-
+                           
                            callback(body)
                        }
                    })
@@ -55,11 +57,12 @@ function init(callback){
     })
 
     function traverseTree(t){
-        debugger
+        ouMap[t.id]=t;
+        
         if (t.children){
             t.showChildren=false;
             t.selected = false;
-            t.children.sort(function(a,b){debugger
+            t.children.sort(function(a,b){
                 var nameA = a.name.toUpperCase(); // ignore upper and lowercase
                 var nameB = b.name.toUpperCase(); // ignore upper and lowercase
                 if (nameA < nameB) {
@@ -73,14 +76,36 @@ function init(callback){
                 return 0;
             })
             
-            t.children.map(function(t){
-                traverseTree(t)
+            t.children.map(function(tc){
+                tc.parent = t;
+                traverseTree(tc)
             })
             
         }else{
             return
         }    
     }
+    
+}
+
+export const treeOUService = {
+    
+    getOrgUnitFromUID : function(uid){
+        
+        try{
+            return Object.assign({},ouMap[uid]);
+        }catch(e){
+            console.log(e);
+            return null
+        }
+    },
+    getRoot : function(){
+        try{
+            return Object.assign({},ouMap[rootOU.id]);
+        }catch(e){
+            console.log(e);
+            return null
+        }    }
     
 }
 
@@ -151,7 +176,7 @@ export function TreeComponent(props){
             instance.props = props;   
 
             instance.componentDidMount= function(){
-//                  console.log("yes")
+                //                  console.log("yes")
             }
             
             instance.toggle = function(){
