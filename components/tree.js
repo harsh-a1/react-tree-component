@@ -199,7 +199,7 @@ export function TreeComponent(props){
             props.state.unselectPrev = unselect;
             data.selected = true;
             instance.setState(data);
-            props.state.onSelectCallback(
+            props.state.onSelectCallback.selected(
                 Object.assign({},
                               {
                                   id:data.id,

@@ -6,7 +6,7 @@ var parentDir = path.join(__dirname, './');
 module.exports = {
   
     entry: [
-        path.join(parentDir, './components/tree')
+        path.join(parentDir, './components/tree.js')
     ],
     module: {
         rules: [
@@ -36,9 +36,7 @@ module.exports = {
     },
     output: {
         path: parentDir + '/dist',
-        filename: 'ous.js',
-        libraryTarget: 'commonjs'
-
+        filename: 'ous.js'
       
     }
    
